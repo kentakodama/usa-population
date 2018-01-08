@@ -22,7 +22,7 @@
     
   </head>
   <body>
-    <h1>HELLO!</h1>
+    <h1>The United States</h1>
     <div id="map"></div>  
     <script src="http://d3js.org/d3.v4.min.js" charset="utf-8"></script>
     <script src="http://d3js.org/topojson.v3.min.js"></script>
@@ -37,11 +37,11 @@
     // must be commas when assigning multiple var
     var height = 640,
         width = 980, //
+        // for some reason this doesn't work because of projections scale/bounds
         //projection = d3.geoAlbersUsa(), 
         usa = void 0
     
-    var path = d3.geoPath()   
-    // var path = d3.geoPath().projection(projection);    
+    var path = d3.geoPath() //default projection? for some reason this works when given just us map  
     
     var svg = d3.select('#map')
           .append('svg')
@@ -51,15 +51,7 @@
     d3.json("https://d3js.org/us-10m.v1.json", function(data) {
     
       var states = topojson.feature(data, data.objects.states)
-      // 
-      // var b, s, t;
-      // projection.scale(1).translate([0, 0]);
-      // var b = path.bounds(states); // this is called the bounding box, more latertml
-      // 
-      // var s = .95 / Math.max((b[1][0] - b[0][0]) / width, (b[1][1] - b[0][1]) / height);
-      // var t = [(width - s * (b[1][0] + b[0][0])) / 2, (height - s * (b[1][1] + b[0][1])) / 2];
-      // projection.scale(s).translate(t);
-      // 
+  
       var map = svg.append('g').attr('class', 'boundary'); 
     
       usa = map.selectAll('path').data(states.features)   
