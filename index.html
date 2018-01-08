@@ -54,13 +54,25 @@
 //here get a color by range between red and blue based on index 
       var color = d3.scaleLinear().domain([0, 3141]).range(['red', 'blue'])
 
+      var getID = function(d) {
+        return 'c' + d.id
+        //!!!! d3 cannot handle id tags that are all numeric so must affix some letter c 
+
+      };
+      
+      function highlight(d){
+        console.log(d);
+        d3.selectAll('path').attr('fill-opacity',0.2) //all
+        d3.select(`#${getID(d)}`).attr('fill-opacity', 1); // this doesnt work
+      }
+
       usa.enter()
         .append('path')
         .attr('d', path)
+        .attr('id', getID) //important! you forgot it! must set id of each path tag
+        .on('mouseenter', highlight)
         .attr('fill', (d, i) => (color(i))) // apply attr change to each path
-    
-      usa.attr('fill', '#eee')
-    
+        
       usa.exit().remove();
     
     })
