@@ -28,10 +28,7 @@
     <script src="http://d3js.org/topojson.v3.min.js"></script>
     
     <script>
-    
 
-    console.log(height);
-    
     // must be commas when assigning multiple var
     var height = 640,
         width = 980, //
@@ -53,10 +50,14 @@
       var map = svg.append('g').attr('class', 'boundary'); 
     
       usa = map.selectAll('path').data(states.features)   
-    
+
+//here get a color by range between red and blue based on index 
+      var color = d3.scaleLinear().domain([0, 50]).range(['red', 'blue'])
+
       usa.enter()
         .append('path')
-        .attr('d', path);
+        .attr('d', path)
+        .attr('fill', (d, i) => (color(i))) // apply attr change to each path
     
       usa.attr('fill', '#eee')
     
