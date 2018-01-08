@@ -3,6 +3,19 @@
   <head>
     <meta charset="utf-8">
     <title>US Population</title>
+    <style>
+    .boundary {
+  fill: #ddd;
+  stroke: #888;
+  stroke-linejoin: round;
+}
+        svg {
+            border-style: solid;
+            border-width: 1px;
+            border-color: #ccc;
+        }
+    </style>
+    
   </head>
   <body>
     <h1>HELLO!</h1>
@@ -17,7 +30,8 @@
     // must be commas when assigning multiple var
     var height = 600,
         width = 900,
-        projection = d3.geoAlbersUsa()
+        projection = d3.geoAlbersUsa(), 
+        usa = void 0;
         
     var path = d3.geoPath().projection(projection);    
         
@@ -40,13 +54,13 @@
       var t = [(width - s * (b[1][0] + b[0][0])) / 2, (height - s * (b[1][1] + b[0][1])) / 2];
       projection.scale(s).translate(t);
         
-      var map = svg.append('g')
-      
-      var usa = map.selectAll('path').data(states.geometries)   
+      var map = svg.append('g').attr('class', 'boundary'); 
+
+      usa = map.selectAll('path').data(states.features)   
       
       usa.enter()
         .append('path')
-        .attr(d, path);
+        .attr('d', path);
         
       usa.attr('fill', '#eee')
       
