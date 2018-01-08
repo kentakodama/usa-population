@@ -5,15 +5,19 @@
     <title>US Population</title>
     <style>
     .boundary {
-  fill: #ddd;
-  stroke: #888;
-  stroke-linejoin: round;
-}
+      fill: #ddd;
+      stroke: #888;
+      stroke-linejoin: round;
+    }
         svg {
             border-style: solid;
             border-width: 1px;
             border-color: #ccc;
+            height: auto;
+            width: auto;
         }
+        
+        
     </style>
     
   </head>
@@ -27,45 +31,49 @@
     </body>
     <script>
     
+
+    console.log(height);
+    
     // must be commas when assigning multiple var
-    var height = 600,
-        width = 900,
-        projection = d3.geoAlbersUsa(), 
-        usa = void 0;
-        
-    var path = d3.geoPath().projection(projection);    
-        
+    var height = 640,
+        width = 980, //
+        //projection = d3.geoAlbersUsa(), 
+        usa = void 0
+    
+    var path = d3.geoPath()   
+    // var path = d3.geoPath().projection(projection);    
+    
     var svg = d3.select('#map')
           .append('svg')
           .attr('height', height)
           .attr('width', width)
-  
+    
     d3.json("https://d3js.org/us-10m.v1.json", function(data) {
-      
+    
       var states = topojson.feature(data, data.objects.states)
-      
-      var b, s, t;
-      projection.scale(1).translate([0, 0]);
-      var b = path.bounds(states); // this is called the bounding box, more latertml
-      
-      var s = .95 / Math.max((b[1][0] - b[0][0]) / width, (b[1][1] - b[0][1]) / height);
-      var t = [(width - s * (b[1][0] + b[0][0])) / 2, (height - s * (b[1][1] + b[0][1])) / 2];
-      projection.scale(s).translate(t);
-        
+      // 
+      // var b, s, t;
+      // projection.scale(1).translate([0, 0]);
+      // var b = path.bounds(states); // this is called the bounding box, more latertml
+      // 
+      // var s = .95 / Math.max((b[1][0] - b[0][0]) / width, (b[1][1] - b[0][1]) / height);
+      // var t = [(width - s * (b[1][0] + b[0][0])) / 2, (height - s * (b[1][1] + b[0][1])) / 2];
+      // projection.scale(s).translate(t);
+      // 
       var map = svg.append('g').attr('class', 'boundary'); 
-      console.log(map);
+    
       usa = map.selectAll('path').data(states.features)   
-      
+    
       usa.enter()
         .append('path')
         .attr('d', path);
-        
+    
       usa.attr('fill', '#eee')
-      
+    
       usa.exit().remove();
-      
+    
     })
-  
+    
     </script>
   </body>
 </html>
